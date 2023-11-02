@@ -43,6 +43,10 @@ P.S. You can delete this when you're done too. It's your config now :)
 vim.g.mapleader = ' '
 vim.g.maplocalleader = ' '
 
+-- from nvimtree
+vim.g.loaded_netrw = 1
+vim.g.loaded_netrwPlugin = 1
+
 -- Install package manager
 --    https://github.com/folke/lazy.nvim
 --    `:help lazy.nvim.txt` for more info
@@ -228,6 +232,8 @@ require('lazy').setup({
   --
   --    For additional information see: https://github.com/folke/lazy.nvim#-structuring-your-plugins
   -- { import = 'custom.plugins' },
+  'nvim-tree/nvim-tree.lua',
+  'nvim-tree/nvim-web-devicons'
 }, {})
 
 -- [[ Setting options ]]
@@ -302,6 +308,9 @@ require('telescope').setup {
         ['<C-d>'] = false,
       },
     },
+    file_ignore_patterns = {
+      "node%_modules/.*"
+    }
   },
 }
 
@@ -326,6 +335,7 @@ vim.keymap.set('n', '<leader>sw', require('telescope.builtin').grep_string, { de
 vim.keymap.set('n', '<leader>sg', require('telescope.builtin').live_grep, { desc = '[S]earch by [G]rep' })
 vim.keymap.set('n', '<leader>sd', require('telescope.builtin').diagnostics, { desc = '[S]earch [D]iagnostics' })
 vim.keymap.set('n', '<leader>sr', require('telescope.builtin').resume, { desc = '[S]earch [R]esume' })
+vim.keymap.set('n', '<leader>nt', ':NvimTreeToggle<CR>', { desc = 'open [n]vim-[t]ree' })
 
 -- [[ Configure Treesitter ]]
 -- See `:help nvim-treesitter`
@@ -485,6 +495,11 @@ local servers = {
       telemetry = { enable = false },
     },
   },
+  ruby_ls = {},
+  tsserver = {},
+  rubocop = {},
+  html = {},
+  eslint = {},
 }
 
 -- Setup neovim lua configuration
@@ -559,6 +574,8 @@ cmp.setup {
     { name = 'luasnip' },
   },
 }
+
+require("nvim-tree").setup()
 
 -- The line beneath this is called `modeline`. See `:help modeline`
 -- vim: ts=2 sts=2 sw=2 et
