@@ -46,6 +46,7 @@ vim.g.maplocalleader = ' '
 -- from nvimtree
 vim.g.loaded_netrw = 1
 vim.g.loaded_netrwPlugin = 1
+vim.g.nvim_tree_respect_buf_cwd = 1
 
 -- Install package manager
 --    https://github.com/folke/lazy.nvim
@@ -127,6 +128,7 @@ require('lazy').setup({
         topdelete = { text = '‾' },
         changedelete = { text = '~' },
       },
+      current_line_blame = true,
       on_attach = function(bufnr)
         vim.keymap.set('n', '<leader>hp', require('gitsigns').preview_hunk, { buffer = bufnr, desc = 'Preview git hunk' })
 
@@ -474,7 +476,7 @@ require('which-key').register {
 -- before setting up the servers.
 require('mason').setup()
 require('mason-lspconfig').setup()
-
+local util = require("lspconfig.util")
 -- Enable the following language servers
 --  Feel free to add/remove any LSPs that you want here. They will automatically be installed.
 --
@@ -577,7 +579,16 @@ cmp.setup {
   },
 }
 
-require("nvim-tree").setup()
+require("nvim-tree").setup {
+  respect_buf_cwd = true,
+  update_focused_file = {
+    enable = true,
+    update_root = true,
+  },
+  view = {
+    width = 50,
+  }
+}
 
 -- The line beneath this is called `modeline`. See `:help modeline`
 -- vim: ts=2 sts=2 sw=2 et
